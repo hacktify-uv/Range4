@@ -1,6 +1,8 @@
 # M2 NIGCL Contracts — Evidence Bundle
 
-This archive contains two self-contained Markdown writeups with embedded, user-provided screenshots. Open `Red-Team/solve_red.md` and `Blue-Team/solve_blue.md` with a Markdown preview (e.g. VS Code `Ctrl+Shift+V`). Images are referenced using relative paths and should render without moving any files.
+[Red Solution](Red-Solution/README.md) | [Blue Solution](Blue-Solution/README.md)
+
+This archive contains two self-contained Markdown writeups with embedded, user-provided screenshots. Open `Red-Solution/README.md` and `Blue-Solution/README.md` with a Markdown preview (e.g. VS Code `Ctrl+Shift+V`). Images are referenced using relative paths and should render without moving any files.
 
 ## Lab
 - Kali: `192.168.222.128`
@@ -8,11 +10,11 @@ This archive contains two self-contained Markdown writeups with embedded, user-p
 - M1: `192.168.222.130`
 
 ## Contents
-- `Red-Team/solve_red.md` — official six-stage order, verified commands/results, Flag 2, working Python exploit; M3 pivot deferred
-- `Red-Team/m2_jwt_exploit.py` — tested standard-library HMAC adaptation needed for modern PyJWT behavior
-- `Red-Team/images/` — captured Kali screenshots
-- `Blue-Team/solve_blue.md` — four official detection steps, evidence interpretation, and deferred remediation
-- `Blue-Team/images/` — captured M2 Ubuntu screenshots
+- `Red-Solution/README.md` — official six-stage order, verified commands/results, Flag 2, working Python exploit; M3 pivot deferred
+- `Red-Solution/m2_jwt_exploit.py` — tested standard-library HMAC adaptation needed for modern PyJWT behavior
+- `Red-Solution/images/` — captured Kali screenshots
+- `Blue-Solution/README.md` — four official detection steps, evidence interpretation, and deferred remediation
+- `Blue-Solution/images/` — captured M2 Ubuntu screenshots
 
 ## Accuracy and evidence notes
 - No screenshots were invented. No separate `/api` enumeration screenshot was supplied.

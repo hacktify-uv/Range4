@@ -19,7 +19,7 @@ nmap -sV -p 22 192.168.222.132
 
 **Observed:** `22/tcp open ssh`, OpenSSH 8.9p1 Ubuntu.
 
-![RED-01A: SSH port discovery](screenshots/machines-M3-nigcl-gateway-Red-Team-images-RED-01A-SSH-Port-Discovery.png)
+![RED-01A: SSH port discovery](images/RED-01A-SSH-Port-Discovery.png)
 
 Connect with credentials recovered from M2:
 
@@ -30,9 +30,9 @@ ssh devops@192.168.222.132
 
 **Observed:** successful SSH authentication, `devops@nigcl-gateway` prompt.
 
-![RED-01B: SSH authentication](screenshots/machines-M3-nigcl-gateway-Red-Team-images-RED-01B-SSH-Authentication.png)
+![RED-01B: SSH authentication](images/RED-01B-SSH-Authentication.png)
 
-![RED-01C: SSH session established](screenshots/machines-M3-nigcl-gateway-Red-Team-images-RED-01C-SSH-Session.png)
+![RED-01C: SSH session established](images/RED-01C-SSH-Session.png)
 
 ## Step 2 — Enumerate sudo permissions
 
@@ -49,7 +49,7 @@ User devops may run the following commands on nigcl-gateway:
 
 This grants root execution of Vim without requiring a sudo password.
 
-![RED-02: sudo permissions](screenshots/machines-M3-nigcl-gateway-Red-Team-images-RED-02-Sudo-Permissions.png)
+![RED-02: sudo permissions](images/RED-02-Sudo-Permissions.png)
 
 ## Step 3 — Privilege escalation using Vim
 
@@ -61,7 +61,7 @@ id
 
 **Observed:** `root` and `uid=0(root) gid=0(root) groups=0(root)`.
 
-![RED-03: Root shell via Vim](screenshots/machines-M3-nigcl-gateway-Red-Team-images-RED-03-Root-Escalation.png)
+![RED-03: Root shell via Vim](images/RED-03-Root-Escalation.png)
 
 ## Step 4 — Read Flag 3
 
@@ -77,7 +77,7 @@ cat /root/flag3.txt
 FLAG{a408c9845986169b_sudo_vim_nigcl}
 ```
 
-![RED-04: Flag 3 captured](screenshots/machines-M3-nigcl-gateway-Red-Team-images-RED-04-Flag3-Retrieval.png)
+![RED-04: Flag 3 captured](images/RED-04-Flag3-Retrieval.png)
 
 ## Step 5 — Retrieve M4 progression hint
 
@@ -87,7 +87,7 @@ cat /root/secrets.txt
 
 **Observed:** internal access record for `nigcl-scheduler` (backup infrastructure), SSH user `sysbackup`, password `Sysb@ckup2024`, and an M4 SSH hint on port 22. The document mentioned network `195.0.0.0/8`; do not assume this public address space is safe to scan unless the entire range is isolated within the cyber range.
 
-![RED-05: M4 hint and credentials](screenshots/machines-M3-nigcl-gateway-Red-Team-images-RED-05-M4-Hint.png)
+![RED-05: M4 hint and credentials](images/RED-05-M4-Hint.png)
 
 ## Step 6 — Discover / access M4 (deferred)
 

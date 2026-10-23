@@ -29,7 +29,7 @@ Disallow: /opt/
 The original guide also directs the operator to browse to `http://192.168.222.130/inquiry`, the public Technical Inquiry form.
 
 
-![Kali terminal showing the robots.txt paths.](screenshots/machines-M1-nigcl-portal-Red-Team-images-RED-01-Reconnaissance.png)
+![Kali terminal showing the robots.txt paths.](images/RED-01-Reconnaissance.png)
 
 ## Step 2 — Confirm SSTI ✅
 
@@ -45,7 +45,7 @@ curl -s -X POST http://192.168.222.130/inquiry \
 **Observed:** Response `QUERY` value was `49` rather than literal `{{7*7}}`, confirming evaluation of user-controlled Jinja2 expressions.
 
 
-![Kali response showing Jinja2 expression 7*7 evaluated to 49.](screenshots/machines-M1-nigcl-portal-Red-Team-images-RED-02-SSTI-Confirmation.png)
+![Kali response showing Jinja2 expression 7*7 evaluated to 49.](images/RED-02-SSTI-Confirmation.png)
 
 ## Step 3 — Test the Blacklist ✅
 
@@ -62,7 +62,7 @@ curl -s -X POST http://192.168.222.130/inquiry \
 **Observed:** `Query processing error. Contact system administrator.`
 
 
-![Blacklist response for config expression.](screenshots/machines-M1-nigcl-portal-Red-Team-images-RED-03A-Config-Blacklist.png)
+![Blacklist response for config expression.](images/RED-03A-Config-Blacklist.png)
 
 **Test B:**
 
@@ -75,7 +75,7 @@ curl -s -X POST http://192.168.222.130/inquiry \
 **Observed:** Same `Query processing error` response. This shows rejection/error for these test cases; it does not by itself establish precisely which internal branch handled the expression.
 
 
-![Blacklist response for Python class-access expression.](screenshots/machines-M1-nigcl-portal-Red-Team-images-RED-03B-Class-Blacklist.png)
+![Blacklist response for Python class-access expression.](images/RED-03B-Class-Blacklist.png)
 
 ## Step 4 — Bypass via Jinja2 Built-in Globals (RCE) ✅
 
@@ -94,7 +94,7 @@ curl -s -X POST http://192.168.222.130/inquiry \
 This confirms operating-system command execution in the application's `www-data` security context.
 
 
-![Kali terminal showing id executed as www-data.](screenshots/machines-M1-nigcl-portal-Red-Team-images-RED-04-RCE-Confirmation.png)
+![Kali terminal showing id executed as www-data.](images/RED-04-RCE-Confirmation.png)
 
 ## Step 5 — Read Flag 1 ✅
 
@@ -113,7 +113,7 @@ FLAG{c3e14298e83e5388_jinja2_ssti_rce}
 ```
 
 
-![Kali terminal showing the retrieved Flag 1.](screenshots/machines-M1-nigcl-portal-Red-Team-images-RED-05-Flag-Retrieval.png)
+![Kali terminal showing the retrieved Flag 1.](images/RED-05-Flag-Retrieval.png)
 
 ## Step 6 — Read the Hint (to M2) ✅
 
@@ -136,7 +136,7 @@ Scan 11.0.0.0/8 on port 3000.
 The memo provides leads intended for the next machine. The literal `11.0.0.0/8` is public address space outside an isolated lab, so discovery should be constrained to explicitly authorized lab routing.
 
 
-![Kali terminal showing M2 hint memo with API and JWT details.](screenshots/machines-M1-nigcl-portal-Red-Team-images-RED-06-M2-Hint.png)
+![Kali terminal showing M2 hint memo with API and JWT details.](images/RED-06-M2-Hint.png)
 
 ## Step 7 — Reverse Shell and DMZ Enumeration ⏸ Deferred
 

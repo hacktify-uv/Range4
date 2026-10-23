@@ -18,10 +18,10 @@ curl -i http://192.168.222.131:3000/
 
 **Observed:** TCP 3000 open; Node.js Express framework; HTTP `200 OK` and the *NIGCL — Contract Management System* HTML page.
 
-![Kali Nmap result identifying Node.js Express on TCP port 3000](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-01-Port-Discovery.png)
+![Kali Nmap result identifying Node.js Express on TCP port 3000](images/M2-RED-01-Port-Discovery.png)
 
 *Figure: Kali Nmap result identifying Node.js Express on TCP port 3000.*
-![HTTP 200 response and Contract Management System page](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-01B-HTTP-Service.png)
+![HTTP 200 response and Contract Management System page](images/M2-RED-01B-HTTP-Service.png)
 
 *Figure: HTTP 200 response and Contract Management System page.*
 
@@ -36,7 +36,7 @@ curl -s http://192.168.222.131:3000/api/.well-known/public-key
 
 **Observed:** `/api/.well-known/public-key` disclosed a PEM-encoded RSA public key. The supplied screenshot records the key. No separate screenshot of the `/api` endpoint listing was supplied.
 
-![Exposed RSA public key obtained from the M2 API](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-02-Public-Key.png)
+![Exposed RSA public key obtained from the M2 API](images/M2-RED-02-Public-Key.png)
 
 *Figure: Exposed RSA public key obtained from the M2 API.*
 
@@ -64,10 +64,10 @@ sudo systemctl restart nigcl-contracts
 
 After this service-specific workaround, the vendor login returned **HTTP 200 with a JWT**.
 
-![Initial vendor login returning Internal Server Error](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-03A-Vendor-Login-Error.png)
+![Initial vendor login returning Internal Server Error](images/M2-RED-03A-Vendor-Login-Error.png)
 
 *Figure: Initial vendor login returning Internal Server Error.*
-![Successful vendor login returning HTTP 200 and a JWT](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-03B-Vendor-Login-Success.png)
+![Successful vendor login returning HTTP 200 and a JWT](images/M2-RED-03B-Vendor-Login-Success.png)
 
 *Figure: Successful vendor login returning HTTP 200 and a JWT.*
 
@@ -88,7 +88,7 @@ print(json.dumps(json.loads(base64.urlsafe_b64decode(s)),indent=2))
 
 **Observed claims:** `username: vendor_liaison`, `role: vendor`, `name: William`, `iss: nigcl-contracts-api`.
 
-![Decoded legitimate vendor JWT showing role vendor](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-03C-Decoded-Vendor-JWT.png)
+![Decoded legitimate vendor JWT showing role vendor](images/M2-RED-03C-Decoded-Vendor-JWT.png)
 
 *Figure: Decoded legitimate vendor JWT showing role vendor.*
 
@@ -107,7 +107,7 @@ The script retrieves the public key, builds an HS256 JWT claiming `role=admin`, 
 
 **Observed:** HTTP `200` from the protected administrator endpoint. The server accepted the forged token; the first admin response showed `flag_not_found` because the flag file wasn't readable by the service account.
 
-![Forged HS256 admin token accepted with HTTP 200; flag initially missing](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-04B-Admin-JWT-Access.png)
+![Forged HS256 admin token accepted with HTTP 200; flag initially missing](images/M2-RED-04B-Admin-JWT-Access.png)
 
 *Figure: Forged HS256 admin token accepted with HTTP 200; flag initially missing.*
 
@@ -136,7 +136,7 @@ FLAG{75ba9c77ea2f43c6_jwt_alg_confusion}
 
 The response also disclosed the next host name `nigcl-gateway`, SSH user `devops`, SSH password `D3v0ps@N1GCL`, and instructions referring to port 22. Treat these as exercise-only credentials.
 
-![Successful Flag 2 extraction and M3 jump-host credentials](screenshots/machines-M2-nigcl-contracts-Red-Team-images-M2-RED-05-Flag2-M3-Credentials.png)
+![Successful Flag 2 extraction and M3 jump-host credentials](images/M2-RED-05-Flag2-M3-Credentials.png)
 
 *Figure: Successful Flag 2 extraction and M3 jump-host credentials.*
 

@@ -20,7 +20,7 @@ find /usr/local/bin -type f -perm -4000 -ls 2>/dev/null
 
 **Observed:** `/usr/local/bin/safereader` is root-owned and SUID (`-rwsr-xr-x`). The full-host inventory command from the reference was **not** executed; the scoped command identified the relevant file.
 
-![Defensive identification of SUID safereader](screenshots/machines-M5-nigcl-archive-screenshots-M5-BLUE-01-SUID-Binary-Discovery.png)
+![Defensive identification of SUID safereader](images/M5-BLUE-01-SUID-Binary-Discovery.png)
 
 *Evidence: `M5-BLUE-01-SUID-Binary-Discovery.png`*
 
@@ -33,7 +33,7 @@ auditctl -l
 
 **Observed audit rule:** `-w /usr/local/bin/safereader -p x -k suid_abuse`.
 
-![Audit rule for safereader execution](screenshots/machines-M5-nigcl-archive-screenshots-M5-BLUE-02A-Auditd-Rule-Configured.png)
+![Audit rule for safereader execution](images/M5-BLUE-02A-Auditd-Rule-Configured.png)
 
 *Evidence: `M5-BLUE-02A-Auditd-Rule-Configured.png`*
 
@@ -48,11 +48,11 @@ ausearch -k suid_abuse -i --start recent | grep -E 'type=SYSCALL|type=EXECVE|typ
 
 **Attribution caution:** Initial events at 14:23:28 and 14:23:54 were run from the **Ubuntu root console** (`auid=ubuntu uid=root euid=root`), and should not be attributed to the attacker. Later events at 14:26:59 and 14:28:49 show `auid=archivist uid=archivist euid=root` with `key=suid_abuse`, demonstrating the SUID elevation during invocation by the unprivileged account.
 
-![Initial audit events showing root console execution](screenshots/machines-M5-nigcl-archive-screenshots-M5-BLUE-02B-SUID-Execution-Detected.png)
+![Initial audit events showing root console execution](images/M5-BLUE-02B-SUID-Execution-Detected.png)
 
 *Evidence: `M5-BLUE-02B-SUID-Execution-Detected.png`*
 
-![Audit events showing archivist attribution](screenshots/machines-M5-nigcl-archive-screenshots-M5-BLUE-02C-Initial-Audit-Review.png)
+![Audit events showing archivist attribution](images/M5-BLUE-02C-Initial-Audit-Review.png)
 
 *Evidence: `M5-BLUE-02C-Initial-Audit-Review.png`*
 
@@ -65,7 +65,7 @@ auditctl -l
 
 **Observed rule:** `-w /root/flag5.txt -p r -k root_read` alongside existing `suid_abuse` watch.
 
-![Sensitive-file audit watch](screenshots/machines-M5-nigcl-archive-screenshots-M5-BLUE-03A-Sensitive-File-Monitoring.png)
+![Sensitive-file audit watch](images/M5-BLUE-03A-Sensitive-File-Monitoring.png)
 
 *Evidence: `M5-BLUE-03A-Sensitive-File-Monitoring.png`*
 
@@ -82,7 +82,7 @@ ausearch -k root_read -i
 
 **Observed at 2026-10-23 14:30:46:** Audit `openat` succeeded (`success=yes`) for `name=/opt/classified/../../../root/flag5.txt`; `a2=O_RDONLY`; `auid=archivist uid=archivist euid=root`; `comm=safereader`, `exe=/usr/local/bin/safereader`, `key=root_read`. This is direct evidence of a protected file read, rather than merely program execution.
 
-![Audit record of protected file read](screenshots/machines-M5-nigcl-archive-screenshots-M5-BLUE-03B-Sensitive-File-Read-Detected.png)
+![Audit record of protected file read](images/M5-BLUE-03B-Sensitive-File-Read-Detected.png)
 
 *Evidence: `M5-BLUE-03B-Sensitive-File-Read-Detected.png`*
 

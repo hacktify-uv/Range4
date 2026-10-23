@@ -16,10 +16,10 @@ journalctl -u nigcl-contracts | grep 'public-key'
 
 **Observed:** Repeated HTTP 200 requests to `/api/.well-known/public-key` from `192.168.222.128`, including entries at 10:31:13, 10:53:22, 10:54:55, and 10:58:29 IST on October 23, 2026. The same source subsequently reached `/api/admin/internal` with 200 responses.
 
-![Service journal recording exposed public key retrievals](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-01A-Public-Key-Access.png)
+![Service journal recording exposed public key retrievals](images/M2-BLUE-01A-Public-Key-Access.png)
 
 *Figure: Service journal recording exposed public key retrievals.*
-![Protected administrator endpoint HTTP 200 events](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-01B-Admin-Endpoint-Access.png)
+![Protected administrator endpoint HTTP 200 events](images/M2-BLUE-01B-Admin-Endpoint-Access.png)
 
 *Figure: Protected administrator endpoint HTTP 200 events.*
 
@@ -64,13 +64,13 @@ GET /api/admin/internal HTTP/1.1 200
 
 The middleware detected but did not block the suspicious algorithm. It was placed before `authMiddleware`; the existing vulnerable acceptance of `['RS256','HS256']` remained unchanged.
 
-![Relevant server.js middleware and route locations](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-02A-Middleware-Location.png)
+![Relevant server.js middleware and route locations](images/M2-BLUE-02A-Middleware-Location.png)
 
 *Figure: Relevant server.js middleware and route locations.*
-![HS256 detection middleware inserted before authMiddleware](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-02B-Middleware-Inserted.png)
+![HS256 detection middleware inserted before authMiddleware](images/M2-BLUE-02B-Middleware-Inserted.png)
 
 *Figure: HS256 detection middleware inserted before authMiddleware.*
-![Live security log of accepted HS256 admin JWT from Kali](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-02C-HS256-Detection.png)
+![Live security log of accepted HS256 admin JWT from Kali](images/M2-BLUE-02C-HS256-Detection.png)
 
 *Figure: Live security log of accepted HS256 admin JWT from Kali.*
 
@@ -102,10 +102,10 @@ sudo journalctl -u nigcl-contracts --no-pager \
 
 No separate `GET /api` enumeration log was supplied, so the exact four-event theoretical sequence should not be claimed as fully observed.
 
-![Focused timestamped HS256 attack sequence](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-03A-Attack-Timeline.png)
+![Focused timestamped HS256 attack sequence](images/M2-BLUE-03A-Attack-Timeline.png)
 
 *Figure: Focused timestamped HS256 attack sequence.*
-![Extended journal showing key retrieval, vendor login and admin requests](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-03B-Request-History.png)
+![Extended journal showing key retrieval, vendor login and admin requests](images/M2-BLUE-03B-Request-History.png)
 
 *Figure: Extended journal showing key retrieval, vendor login and admin requests.*
 
@@ -121,7 +121,7 @@ journalctl -u nigcl-contracts | grep 'admin/internal'
 
 A fresh successful forged request after the 403 could demonstrate the chronological 403 → 200 transition, but this subsequent screenshot was not provided.
 
-![Admin endpoint results showing earlier HTTP 200 and later HTTP 401/403](screenshots/machines-M2-nigcl-contracts-Blue-Team-images-M2-BLUE-04-Admin-Authorization.png)
+![Admin endpoint results showing earlier HTTP 200 and later HTTP 401/403](images/M2-BLUE-04-Admin-Authorization.png)
 
 *Figure: Admin endpoint results showing earlier HTTP 200 and later HTTP 401/403.*
 

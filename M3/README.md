@@ -1,13 +1,15 @@
 # M3 NIGCL Gateway — Evidence Package
 
+[Red Solution](Red-Solution/README.md) | [Blue Solution](Blue-Solution/README.md)
+
 This archive contains two Markdown walkthroughs based on the official Range4 M3 Red and Blue solutions, with evidence from the October 23, 2026 Kali and Ubuntu sessions.
 
 ## Files
 
-- `Red-Team/solve_red.md` — SSH → sudo enumeration → Vim escalation → Flag 3 → M4 hint; M4 pivot deferred.
-- `Blue-Team/solve_blue.md` — sudo log detection, auditd root-execution evidence, IOCs; remediation deferred.
-- `Red-Team/images/` — 7 screenshots.
-- `Blue-Team/images/` — 5 screenshots.
+- `Red-Solution/README.md` — SSH → sudo enumeration → Vim escalation → Flag 3 → M4 hint; M4 pivot deferred.
+- `Blue-Solution/README.md` — sudo log detection, auditd root-execution evidence, IOCs; remediation deferred.
+- `Red-Solution/images/` — 7 screenshots.
+- `Blue-Solution/images/` — 5 screenshots.
 
 ## Snapshot and safety notes
 

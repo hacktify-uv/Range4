@@ -1,5 +1,7 @@
 # M5 NIGCL Archive — Evidence Package
 
+[Red Solution](Red-Solution/README.md) | [Blue Solution](Blue-Solution/README.md)
+
 **Contents:** `solve_red.md`, `solve_blue.md`, and `screenshots/` with real user-provided screenshot captures from the 23 October 2026 exercise.
 
 **Deployment:** Ubuntu 22.04.5 VM `nigcl-archive`, IP 192.168.222.134; attacker Kali at 192.168.222.128.
