@@ -8,7 +8,7 @@
 
 > This document preserves the order of the official Blue Team guide. Some extra commands were used to make the output easier to capture. Where the original guide's `auditctl` command was invalid, the working syntax is documented. No network shell to M2 was attempted.
 
-## Log Access ✅
+## Log Access 
 
 **Commands run on Ubuntu server:**
 
@@ -20,11 +20,11 @@ sudo journalctl -u nigcl-portal --since today
 **Observed:** POST requests to `/inquiry` from Kali `192.168.222.128`, with `curl/8.20.0` and HTTP 200 responses; Gunicorn 23.0.0 listening on port 80 with workers `12425` and `12428`.
 
 
-![Gunicorn access log showing Kali POST requests to /inquiry.](images/BLUE-01A-Application-Logs.png)
+![Gunicorn access log showing Kali POST requests to /inquiry.](images/Blue-BLUE-01A-Application-Logs.png)
 
-![Journal showing NIGCL portal service startup and Gunicorn workers.](images/BLUE-01B-Service-Logs.png)
+![Journal showing NIGCL portal service startup and Gunicorn workers.](images/Blue-BLUE-01B-Service-Logs.png)
 
-## Detection 1 — SSTI Probe Patterns ✅ (no matches)
+## Detection 1 — SSTI Probe Patterns  (no matches)
 
 ```bash
 sudo grep -E '%7B%7B|\{\{|cycler|lipsum|__globals__|popen|os\.' /var/log/nigcl_portal.log
@@ -33,9 +33,9 @@ sudo grep -E '%7B%7B|\{\{|cycler|lipsum|__globals__|popen|os\.' /var/log/nigcl_p
 **Observed:** No lines returned. The inspected log records request method, path, status, and user agent but not the POST body; therefore this negative result **does not** refute the successful SSTI exploitation.
 
 
-![Pattern-search command with no matching access-log lines.](images/BLUE-02-SSTI-Patterns.png)
+![Pattern-search command with no matching access-log lines.](images/Blue-BLUE-02-SSTI-Patterns.png)
 
-## Detection 2 — RCE Confirmation with auditd ✅
+## Detection 2 — RCE Confirmation with auditd 
 
 **Verified existing rule:**
 
@@ -47,7 +47,7 @@ sudo auditctl -l
 **Note on source guide:** The original command uses invalid `-F syscall=execve`. The valid equivalent is `-F arch=b64 -S execve` along with the UID and key filters. The rule was already installed; attempts to add it again returned `Rule exists`.
 
 
-![Auditd rule showing execve monitoring for UID 33.](images/BLUE-03A-Audit-Rule.png)
+![Auditd rule showing execve monitoring for UID 33.](images/Blue-BLUE-03A-Audit-Rule.png)
 
 **Search and filter:**
 
@@ -68,11 +68,11 @@ sudo ausearch -k www_rce --start today -i \
 The shell process's parent was the Gunicorn worker PID `12428`; this provides compelling evidence of unauthorized OS-command execution in the lab. **Execution of `cat` with these filenames is directly logged, but separate file-open auditing was not present.**
 
 
-![Full auditd query showing web service command execution.](images/BLUE-03B-Audit-RCE-Full.png)
+![Full auditd query showing web service command execution.](images/Blue-BLUE-03B-Audit-RCE-Full.png)
 
-![Focused auditd output showing id and both cat commands under www-data.](images/BLUE-03C-Audit-RCE-Flag-Hint.png)
+![Focused auditd output showing id and both cat commands under www-data.](images/Blue-BLUE-03C-Audit-RCE-Flag-Hint.png)
 
-## Detection 3 — Flag / Hint File Access ✅ (no file-access records)
+## Detection 3 — Flag / Hint File Access  (no file-access records)
 
 ```bash
 sudo ausearch --start today -f /opt/nigcl/classified/flag1.txt
@@ -82,9 +82,9 @@ sudo ausearch --start today -f /opt/nigcl/classified/hint.txt
 **Observed:** Both yielded `<no matches>`. The current rule audits `execve` and does not necessarily log each file read. However, command execution audit records in Detection 2 show that `cat` was invoked with both file paths.
 
 
-![Searches for flag and hint file audit events, showing no matches.](images/BLUE-04-File-Access-Search.png)
+![Searches for flag and hint file audit events, showing no matches.](images/Blue-BLUE-04-File-Access-Search.png)
 
-## Detection 4 — HTTP 500 Error Spike ✅ (zero)
+## Detection 4 — HTTP 500 Error Spike  (zero)
 
 The official guide discusses bursts of HTTP 500 responses on `/inquiry`. To test this, the following supporting commands were used:
 
@@ -96,11 +96,11 @@ sudo awk '$7=="/inquiry" && $9==500 {count++} END {print "HTTP 500 errors:", cou
 **Observed:** `HTTP 500 errors: 0`. Error messages were displayed in application responses that still used HTTP 200, so HTTP-500-based detection is not sufficient for this deployment.
 
 
-![Search for POST /inquiry requests returning 500, with no matches.](images/BLUE-05A-HTTP-500-Search.png)
+![Search for POST /inquiry requests returning 500, with no matches.](images/Blue-BLUE-05A-HTTP-500-Search.png)
 
-![awk count confirming zero HTTP 500 errors.](images/BLUE-05B-HTTP-500-Count.png)
+![awk count confirming zero HTTP 500 errors.](images/Blue-BLUE-05B-HTTP-500-Count.png)
 
-## Detection 5 — Outbound Connection from www-data ✅ (none currently visible)
+## Detection 5 — Outbound Connection from www-data  (none currently visible)
 
 ```bash
 sudo ss -tp | grep www-data
@@ -109,20 +109,20 @@ sudo ss -tp | grep www-data
 **Observed:** No matching connections at inspection time. Reverse shell was deliberately deferred, so no shell connection was expected. This snapshot does not rule out previous connections.
 
 
-![Socket check showing no active TCP connections matching www-data.](images/BLUE-06-Outbound-Connections.png)
+![Socket check showing no active TCP connections matching www-data.](images/Blue-BLUE-06-Outbound-Connections.png)
 
-## Remediation — Not Performed (by request) ⏸
+## Remediation — Not Performed (by request) 
 
 The source solution recommends replacing unsafe `render_template_string()` with fixed-template `render_template()`, sandboxing where dynamic templates cannot be avoided, input allowlisting, WAF defenses, and least-privilege system confinement. **No remediation was applied in this exercise.**
 
 As supplementary investigation, the vulnerable source was identified as `/opt/nigcl/portal/app/app.py`, line 83: `output = render_template_string(tpl)`. Lines 70–83 concatenate `product_query` into the template source after applying a weak substring blacklist.
 
 
-![grep locating render_template_string in Flask app.py.](images/BLUE-07A-Vulnerable-Code-Location.png)
+![grep locating render_template_string in Flask app.py.](images/Blue-BLUE-07A-Vulnerable-Code-Location.png)
 
-![Annotated source section showing /inquiry route and input retrieval.](images/BLUE-07B-Inquiry-Function.png)
+![Annotated source section showing /inquiry route and input retrieval.](images/Blue-BLUE-07B-Inquiry-Function.png)
 
-![Source lines 70–95 showing blacklist and unsafe render_template_string(tpl).](images/BLUE-07C-Template-Construction.png)
+![Source lines 70–95 showing blacklist and unsafe render_template_string(tpl).](images/Blue-BLUE-07C-Template-Construction.png)
 
 
 ## Detection Conclusion

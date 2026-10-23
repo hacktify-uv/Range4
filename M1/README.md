@@ -1,9 +1,9 @@
 # M1 NIGCL Portal — Red/Blue Evidence Bundle
 
-[Red Solution](Red-Solution/README.md) | [Blue Solution](Blue-Solution/README.md)
+[Red Solution](Red-Solution.md) | [Blue Solution](Blue%20Solution.md)
 
-- [Red Team walkthrough](Red-Solution/README.md) — Steps 1–6 completed; Step 7 deferred.
-- [Blue Team walkthrough](Blue-Solution/README.md) — Detection completed; remediation intentionally not performed.
+- [Red Team walkthrough](Red-Solution.md) — Steps 1–6 completed; Step 7 deferred.
+- [Blue Team walkthrough](Blue%20Solution.md) — Detection completed; remediation intentionally not performed.
 - Actual screenshots are included under each team's `images/` folder and embedded into the Markdown files at the relevant steps.
 - Only captured evidence is embedded; deferred steps are identified in the text.
 

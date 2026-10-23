@@ -15,7 +15,7 @@ find /etc/cron* /opt -perm -0002 -user root -type f 2>/dev/null
 
 Found: `/opt/nigcl/scripts/maintenance.sh`.
 
-![Root-owned writable maintenance script detected](images/01-World-Writable-Script-Detection.png)
+![Root-owned writable maintenance script detected](images/Blue-01-World-Writable-Script-Detection.png)
 
 *Evidence: Root-owned writable maintenance script detected.*
 
@@ -28,7 +28,7 @@ sudo auditctl -w /opt/nigcl/scripts/maintenance.sh -p wa -k cron_tamper
 sudo auditctl -l
 ```
 
-![Auditd cron_tamper watch installed](images/02A-Auditd-Watch-Configured.png)
+![Auditd cron_tamper watch installed](images/Blue-02A-Auditd-Watch-Configured.png)
 
 *Evidence: Auditd cron_tamper watch installed.*
 
@@ -46,7 +46,7 @@ sudo ausearch -k cron_tamper -i
 
 Observed `syscall=openat`, `success=yes`, `auid=sysbackup`, `uid=sysbackup`, and the monitored script path. This proves auditd can attribute subsequent writes.
 
-![Auditd event proves write by sysbackup](images/02B-Script-Tampering-Audit.png)
+![Auditd event proves write by sysbackup](images/Blue-02B-Script-Tampering-Audit.png)
 
 *Evidence: Auditd event proves write by sysbackup.*
 
@@ -60,7 +60,7 @@ find /tmp -perm -4000 -type f 2>/dev/null
 
 Found `/tmp/.nb`, the SUID Bash binary established during the Red Team phase.
 
-![Suspicious SUID binary found in /tmp](images/03-SUID-Binary-Detection.png)
+![Suspicious SUID binary found in /tmp](images/Blue-03-SUID-Binary-Detection.png)
 
 *Evidence: Suspicious SUID binary found in /tmp.*
 
@@ -72,7 +72,7 @@ grep "CRON.*maintenance" /var/log/syslog | tail -10
 
 Observed `(root) CMD (/opt/nigcl/scripts/maintenance.sh)` every minute, including 13:48–13:50 on 23 October 2026.
 
-![Cron runs maintenance script as root every minute](images/04A-Root-Cron-Execution.png)
+![Cron runs maintenance script as root every minute](images/Blue-04A-Root-Cron-Execution.png)
 
 *Evidence: Cron runs maintenance script as root every minute.*
 
@@ -84,7 +84,7 @@ sudo tail -n 15 /var/log/nigcl_maintenance.log
 
 The maintenance log shows successful periodic checks; it does not itself identify the injected command.
 
-![Maintenance check log corroborates scheduled execution](images/04B-Maintenance-Log.png)
+![Maintenance check log corroborates scheduled execution](images/Blue-04B-Maintenance-Log.png)
 
 *Evidence: Maintenance check log corroborates scheduled execution.*
 

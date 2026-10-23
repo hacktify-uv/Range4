@@ -1,11 +1,11 @@
 # M4 NIGCL Scheduler — Red & Blue Evidence Bundle
 
-[Red Solution](Red-Solution/README.md) | [Blue Solution](Blue-Solution/README.md)
+[Red Solution](Red-Solution.md) | [Blue Solution](Blue%20Solution.md)
 
 This package contains tested writeups with screenshots from 23 October 2026, mapped into the corresponding sections.
 
-- `Red-Solution/README.md`: official Red steps 1–8; M5 pivot deferred
-- `Blue-Solution/README.md`: official Blue detection steps 1–4; remediation deferred
+- `Red-Solution.md`: official Red steps 1–8; M5 pivot deferred
+- `Blue Solution.md`: official Blue detection steps 1–4; remediation deferred
 - Image files are referenced by relative paths and should display in GitHub or VS Code Markdown Preview.
 
 ## Evidence inventory

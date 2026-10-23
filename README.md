@@ -4,11 +4,11 @@ Red Team walkthroughs and Blue Team investigations for five NIGCL training machi
 
 | Machine | Red Team | Blue Team | Screenshots |
 | --- | --- | --- | --- |
-| M1 — NIGCL Portal | [Solution](M1/Red-Solution/README.md) | [Investigation](M1/Blue-Solution/README.md) | 20 |
-| M2 — NIGCL Contracts | [Solution](M2/Red-Solution/README.md) | [Investigation](M2/Blue-Solution/README.md) | 16 |
-| M3 — NIGCL Gateway | [Solution](M3/Red-Solution/README.md) | [Investigation](M3/Blue-Solution/README.md) | 12 |
-| M4 — NIGCL Scheduler | [Solution](M4/Red-Solution/README.md) | [Investigation](M4/Blue-Solution/README.md) | 16 |
-| M5 — NIGCL Archive | [Solution](M5/Red-Solution/README.md) | [Investigation](M5/Blue-Solution/README.md) | 11 |
+| M1 — NIGCL Portal | [Solution](M1/Red-Solution.md) | [Investigation](M1/Blue%20Solution.md) | 20 |
+| M2 — NIGCL Contracts | [Solution](M2/Red-Solution.md) | [Investigation](M2/Blue%20Solution.md) | 16 |
+| M3 — NIGCL Gateway | [Solution](M3/Red-Solution.md) | [Investigation](M3/Blue%20Solution.md) | 12 |
+| M4 — NIGCL Scheduler | [Solution](M4/Red-Solution.md) | [Investigation](M4/Blue%20Solution.md) | 16 |
+| M5 — NIGCL Archive | [Solution](M5/Red-Solution.md) | [Investigation](M5/Blue%20Solution.md) | 11 |
 
 ## Evidence
 

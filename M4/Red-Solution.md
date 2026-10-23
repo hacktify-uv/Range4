@@ -20,11 +20,11 @@ id
 
 Confirmed: authenticated as `sysbackup`, UID 1001, on `nigcl-scheduler`.
 
-![Kali SSH login to M4](images/01A-SSH-Authentication.png)
+![Kali SSH login to M4](images/Red-01A-SSH-Authentication.png)
 
 *Evidence: Kali SSH login to M4.*
 
-![sysbackup user and hostname verification](images/01B-Identity-Verification.png)
+![sysbackup user and hostname verification](images/Red-01B-Identity-Verification.png)
 
 *Evidence: sysbackup user and hostname verification.*
 
@@ -36,7 +36,7 @@ cat /etc/crontab
 
 Observed: `* * * * * root /opt/nigcl/scripts/maintenance.sh` — executes each minute as root.
 
-![Root cron schedule discovered](images/02-Root-Cron-Discovery.png)
+![Root cron schedule discovered](images/Red-02-Root-Cron-Discovery.png)
 
 *Evidence: Root cron schedule discovered.*
 
@@ -48,7 +48,7 @@ ls -la /opt/nigcl/scripts/maintenance.sh
 
 Observed root-owned script with `-rwxrwxrwx` (mode 777). Any local user can modify root-executed content.
 
-![World-writable maintenance script](images/03-World-Writable-Script.png)
+![World-writable maintenance script](images/Red-03-World-Writable-Script.png)
 
 *Evidence: World-writable maintenance script.*
 
@@ -61,7 +61,7 @@ tail -n 5 /opt/nigcl/scripts/maintenance.sh
 
 The screenshot confirms the payload was appended by `sysbackup`.
 
-![Cron script tampering and payload appended](images/04-Cron-Payload-Injection.png)
+![Cron script tampering and payload appended](images/Red-04-Cron-Payload-Injection.png)
 
 *Evidence: Cron script tampering and payload appended.*
 
@@ -73,7 +73,7 @@ watch -n 1 ls -la /tmp/.nb
 
 Observed `/tmp/.nb` owned by root with the setuid bit (`-rwsr-sr-x`).
 
-![SUID Bash appeared after root cron execution](images/05-SUID-Bash-Created.png)
+![SUID Bash appeared after root cron execution](images/Red-05-SUID-Bash-Created.png)
 
 *Evidence: SUID Bash appeared after root cron execution.*
 
@@ -89,13 +89,13 @@ id -ru
 
 Confirmed `whoami=root`, `euid=0(root)` while the real UID remained `1001(sysbackup)`.
 
-![SUID Bash privilege escalation verified](images/06-Root-Escalation.png)
+![SUID Bash privilege escalation verified](images/Red-06-Root-Escalation.png)
 
 *Evidence: SUID Bash privilege escalation verified.*
 
 Additional file-permission verification:
 
-![SUID permission and mount options checked](images/06B-SUID-File-And-Mount.png)
+![SUID permission and mount options checked](images/Red-06B-SUID-File-And-Mount.png)
 
 *Evidence: SUID permission and mount options checked.*
 
@@ -108,13 +108,13 @@ cat /root/secrets.txt
 
 **Flag 4:** `FLAG{d56314b53e733ac6_cron_hijack_nigcl}`
 
-![Flag 4 captured as effective root](images/07A-Flag4-Retrieval.png)
+![Flag 4 captured as effective root](images/Red-07A-Flag4-Retrieval.png)
 
 *Evidence: Flag 4 captured as effective root.*
 
 The internal access record identifies `nigcl-archive` (classified document store), SSH account `archivist`, SSH port 22, and an M5 subnet hint (`195.0.0.0/8`). The credential shown in the lab is `Arch1v1st@99` (the same value listed in the official solution).
 
-![M5 progression hint from secrets.txt](images/07B-M5-Credentials.png)
+![M5 progression hint from secrets.txt](images/Red-07B-M5-Credentials.png)
 
 *Evidence: M5 progression hint from secrets.txt.*
 

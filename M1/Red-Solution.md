@@ -9,7 +9,7 @@
 
 > The structure below follows the original Red Team writeup. Where its commands did not work on the deployed instance, the *actual tested and working* commands are documented and labelled. The accompanying images were supplied during this exercise.
 
-## Step 1 — Reconnaissance ✅
+## Step 1 — Reconnaissance 
 
 **Command (Kali):**
 
@@ -29,9 +29,9 @@ Disallow: /opt/
 The original guide also directs the operator to browse to `http://192.168.222.130/inquiry`, the public Technical Inquiry form.
 
 
-![Kali terminal showing the robots.txt paths.](images/RED-01-Reconnaissance.png)
+![Kali terminal showing the robots.txt paths.](images/Red-RED-01-Reconnaissance.png)
 
-## Step 2 — Confirm SSTI ✅
+## Step 2 — Confirm SSTI 
 
 **Executed command (separate form fields to avoid merging them into one value):**
 
@@ -45,9 +45,9 @@ curl -s -X POST http://192.168.222.130/inquiry \
 **Observed:** Response `QUERY` value was `49` rather than literal `{{7*7}}`, confirming evaluation of user-controlled Jinja2 expressions.
 
 
-![Kali response showing Jinja2 expression 7*7 evaluated to 49.](images/RED-02-SSTI-Confirmation.png)
+![Kali response showing Jinja2 expression 7*7 evaluated to 49.](images/Red-RED-02-SSTI-Confirmation.png)
 
-## Step 3 — Test the Blacklist ✅
+## Step 3 — Test the Blacklist 
 
 The original writeup identifies filtering for tokens such as `config`, `__class__`, `__mro__`, `__subclasses__`, `__builtins__`, `import`, `eval`, `exec`, `open`, `os.system`, and `subprocess`.
 
@@ -62,7 +62,7 @@ curl -s -X POST http://192.168.222.130/inquiry \
 **Observed:** `Query processing error. Contact system administrator.`
 
 
-![Blacklist response for config expression.](images/RED-03A-Config-Blacklist.png)
+![Blacklist response for config expression.](images/Red-RED-03A-Config-Blacklist.png)
 
 **Test B:**
 
@@ -75,9 +75,9 @@ curl -s -X POST http://192.168.222.130/inquiry \
 **Observed:** Same `Query processing error` response. This shows rejection/error for these test cases; it does not by itself establish precisely which internal branch handled the expression.
 
 
-![Blacklist response for Python class-access expression.](images/RED-03B-Class-Blacklist.png)
+![Blacklist response for Python class-access expression.](images/Red-RED-03B-Class-Blacklist.png)
 
-## Step 4 — Bypass via Jinja2 Built-in Globals (RCE) ✅
+## Step 4 — Bypass via Jinja2 Built-in Globals (RCE) 
 
 **Original writeup:** Uses `cycler.__init__.__globals__.os.popen('id').read()` (and alternatively `lipsum`). Both literal `popen` payloads returned a query-processing error on this deployment because the blacklist strips `open`, which also occurs within `popen`.
 
@@ -94,9 +94,9 @@ curl -s -X POST http://192.168.222.130/inquiry \
 This confirms operating-system command execution in the application's `www-data` security context.
 
 
-![Kali terminal showing id executed as www-data.](images/RED-04-RCE-Confirmation.png)
+![Kali terminal showing id executed as www-data.](images/Red-RED-04-RCE-Confirmation.png)
 
-## Step 5 — Read Flag 1 ✅
+## Step 5 — Read Flag 1 
 
 **Working command (same verified blacklist workaround):**
 
@@ -113,9 +113,9 @@ FLAG{c3e14298e83e5388_jinja2_ssti_rce}
 ```
 
 
-![Kali terminal showing the retrieved Flag 1.](images/RED-05-Flag-Retrieval.png)
+![Kali terminal showing the retrieved Flag 1.](images/Red-RED-05-Flag-Retrieval.png)
 
-## Step 6 — Read the Hint (to M2) ✅
+## Step 6 — Read the Hint (to M2) 
 
 ```bash
 curl -s -X POST http://192.168.222.130/inquiry \
@@ -136,9 +136,9 @@ Scan 11.0.0.0/8 on port 3000.
 The memo provides leads intended for the next machine. The literal `11.0.0.0/8` is public address space outside an isolated lab, so discovery should be constrained to explicitly authorized lab routing.
 
 
-![Kali terminal showing M2 hint memo with API and JWT details.](images/RED-06-M2-Hint.png)
+![Kali terminal showing M2 hint memo with API and JWT details.](images/Red-RED-06-M2-Hint.png)
 
-## Step 7 — Reverse Shell and DMZ Enumeration ⏸ Deferred
+## Step 7 — Reverse Shell and DMZ Enumeration  Deferred
 
 **Reason:** M2 has not been deployed. No screenshot was supplied and no claim of reverse-shell establishment or discovery is made.
 
